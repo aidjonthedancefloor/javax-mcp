@@ -6,11 +6,11 @@ package io.modelcontextprotocol.server.transport;
 
 import java.io.IOException;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
  * Simple {@link Filter} which sets a value in a thread local. Used to verify whether MCP

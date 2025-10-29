@@ -30,12 +30,12 @@ import io.modelcontextprotocol.spec.ProtocolVersions;
 import io.modelcontextprotocol.util.Assert;
 import io.modelcontextprotocol.json.McpJsonMapper;
 import io.modelcontextprotocol.util.KeepAliveScheduler;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.AsyncContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -319,27 +319,27 @@ public class HttpServletStreamableServerTransportProvider extends HttpServlet
 				McpStreamableServerSession.McpStreamableServerSessionStream listeningStream = session
 					.listeningStream(sessionTransport);
 
-				asyncContext.addListener(new jakarta.servlet.AsyncListener() {
+				asyncContext.addListener(new javax.servlet.AsyncListener() {
 					@Override
-					public void onComplete(jakarta.servlet.AsyncEvent event) throws IOException {
+					public void onComplete(javax.servlet.AsyncEvent event) throws IOException {
 						logger.debug("SSE connection completed for session: {}", sessionId);
 						listeningStream.close();
 					}
 
 					@Override
-					public void onTimeout(jakarta.servlet.AsyncEvent event) throws IOException {
+					public void onTimeout(javax.servlet.AsyncEvent event) throws IOException {
 						logger.debug("SSE connection timed out for session: {}", sessionId);
 						listeningStream.close();
 					}
 
 					@Override
-					public void onError(jakarta.servlet.AsyncEvent event) throws IOException {
+					public void onError(javax.servlet.AsyncEvent event) throws IOException {
 						logger.debug("SSE connection error for session: {}", sessionId);
 						listeningStream.close();
 					}
 
 					@Override
-					public void onStartAsync(jakarta.servlet.AsyncEvent event) throws IOException {
+					public void onStartAsync(javax.servlet.AsyncEvent event) throws IOException {
 						// No action needed
 					}
 				});

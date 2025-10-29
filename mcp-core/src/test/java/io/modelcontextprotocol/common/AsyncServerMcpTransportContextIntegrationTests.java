@@ -23,8 +23,8 @@ import io.modelcontextprotocol.server.transport.HttpServletStatelessServerTransp
 import io.modelcontextprotocol.server.transport.HttpServletStreamableServerTransportProvider;
 import io.modelcontextprotocol.server.transport.TomcatTestUtil;
 import io.modelcontextprotocol.spec.McpSchema;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleState;
 import org.apache.catalina.startup.Tomcat;

@@ -92,7 +92,7 @@
 		<asciidoctorj-pdf.version>1.6.2</asciidoctorj-pdf.version>
 		<junit-jupiter.version>5.10.5</junit-jupiter.version>
 		<tomcat.version>11.0.2</tomcat.version>
-		<jakarta.servlet.version>6.1.0</jakarta.servlet.version>
+		<javax.servlet.version>2.5</javax.servlet.version>
 		<awaitility.version>4.2.0</awaitility.version>
 		<bnd-maven-plugin.version>7.1.0</bnd-maven-plugin.version>
 		<json-unit-assertj.version>4.1.0</json-unit-assertj.version>
@@ -106,8 +106,6 @@
         <module>mcp-core</module>
         <module>mcp-json-jackson2</module>
         <module>mcp-json</module>
-		<module>mcp-spring/mcp-spring-webflux</module>
-		<module>mcp-spring/mcp-spring-webmvc</module>
 		<module>mcp-test</module>
 	</modules>
 
