@@ -18,6 +18,7 @@ import io.modelcontextprotocol.server.McpStatelessServerHandler;
 import io.modelcontextprotocol.server.McpTransportContextExtractor;
 import io.modelcontextprotocol.spec.McpError;
 import io.modelcontextprotocol.spec.McpSchema;
+import io.modelcontextprotocol.spec.McpSchema.JSONRPCResponse.JSONRPCError;
 import io.modelcontextprotocol.spec.McpStatelessServerTransport;
 import io.modelcontextprotocol.util.Assert;
 import javax.servlet.ServletException;
@@ -127,7 +128,8 @@ public class HttpServletStatelessServerTransport extends HttpServlet implements 
 		String accept = request.getHeader(ACCEPT);
 		if (accept == null || !(accept.contains(APPLICATION_JSON) && accept.contains(TEXT_EVENT_STREAM))) {
 			this.responseError(response, HttpServletResponse.SC_BAD_REQUEST,
-					new McpError("Both application/json and text/event-stream required in Accept header"));
+					new McpError(new JSONRPCError(McpSchema.ErrorCodes.INVALID_REQUEST,
+							"Both application/json and text/event-stream required in Accept header", null)));
 			return;
 		}
 
@@ -160,7 +162,8 @@ public class HttpServletStatelessServerTransport extends HttpServlet implements 
 				catch (Exception e) {
 					logger.error("Failed to handle request: {}", e.getMessage());
 					this.responseError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-							new McpError("Failed to handle request: " + e.getMessage()));
+							new McpError(new JSONRPCError(McpSchema.ErrorCodes.INTERNAL_ERROR,
+									"Failed to handle request: " + e.getMessage(), null)));
 				}
 			}
 			else if (message instanceof McpSchema.JSONRPCNotification jsonrpcNotification) {
@@ -173,22 +176,26 @@ public class HttpServletStatelessServerTransport extends HttpServlet implements 
 				catch (Exception e) {
 					logger.error("Failed to handle notification: {}", e.getMessage());
 					this.responseError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-							new McpError("Failed to handle notification: " + e.getMessage()));
+							new McpError(new JSONRPCError(McpSchema.ErrorCodes.INTERNAL_ERROR,
+									"Failed to handle notification: " + e.getMessage(), null)));
 				}
 			}
 			else {
 				this.responseError(response, HttpServletResponse.SC_BAD_REQUEST,
-						new McpError("The server accepts either requests or notifications"));
+						new McpError(new JSONRPCError(McpSchema.ErrorCodes.INVALID_REQUEST,
+								"The server accepts either requests or notifications", null)));
 			}
 		}
 		catch (IllegalArgumentException | IOException e) {
 			logger.error("Failed to deserialize message: {}", e.getMessage());
-			this.responseError(response, HttpServletResponse.SC_BAD_REQUEST, new McpError("Invalid message format"));
+			this.responseError(response, HttpServletResponse.SC_BAD_REQUEST,
+					new McpError(new JSONRPCError(McpSchema.ErrorCodes.PARSE_ERROR, "Invalid message format", null)));
 		}
 		catch (Exception e) {
 			logger.error("Unexpected error handling message: {}", e.getMessage());
 			this.responseError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					new McpError("Unexpected error: " + e.getMessage()));
+					new McpError(new JSONRPCError(McpSchema.ErrorCodes.INTERNAL_ERROR,
+							"Unexpected error: " + e.getMessage(), null)));
 		}
 	}
 

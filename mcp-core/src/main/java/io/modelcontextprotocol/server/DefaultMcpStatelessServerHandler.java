@@ -7,6 +7,8 @@ package io.modelcontextprotocol.server;
 import io.modelcontextprotocol.common.McpTransportContext;
 import io.modelcontextprotocol.spec.McpError;
 import io.modelcontextprotocol.spec.McpSchema;
+import io.modelcontextprotocol.spec.McpSchema.JSONRPCResponse.JSONRPCError;
+import io.modelcontextprotocol.spec.McpSchema.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -32,7 +34,8 @@ class DefaultMcpStatelessServerHandler implements McpStatelessServerHandler {
 			McpSchema.JSONRPCRequest request) {
 		McpStatelessRequestHandler<?> requestHandler = this.requestHandlers.get(request.method());
 		if (requestHandler == null) {
-			return Mono.error(new McpError("Missing handler for request type: " + request.method()));
+			return Mono.error(new McpError(new JSONRPCError(McpSchema.ErrorCodes.METHOD_NOT_FOUND,
+					"Missing handler for request type: " + request.method(), null)));
 		}
 		return requestHandler.handle(transportContext, request.params())
 			.map(result -> new McpSchema.JSONRPCResponse(McpSchema.JSONRPC_VERSION, request.id(), result, null))
