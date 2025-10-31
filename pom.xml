@@ -52,7 +52,7 @@
 	</ciManagement>
 
 	<properties>
-		<revision>0.15.0-SNAPSHOT</revision>
+		<revision>69.0</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
